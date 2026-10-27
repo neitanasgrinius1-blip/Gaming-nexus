@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101014">
+<title>NEXUS Gaming — Prototype</title>
+<style>
+:root{--bg:#0c0c10;--panel:#15151c;--panel2:#1d1d27;--text:#f5f5fa;--muted:#a7a7b8;--red:#ff414d;--line:#30303c;--green:#71e0a1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -10%,#4a101b 0,transparent 33%),var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;color:white;background:var(--red);font-weight:700}button.secondary{background:var(--panel2);border:1px solid var(--line)}button:focus-visible,input:focus-visible{outline:2px solid #ff8d94;outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:#101014ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:900;letter-spacing:.5px}.logo{display:grid;place-items:center;width:34px;height:34px;background:var(--red);border-radius:10px;font-weight:1000;box-shadow:0 0 24px #ff414d55}
+.status{font-size:12px;color:var(--muted)}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);max-width:1400px;margin:auto;min-height:calc(100vh - 60px)}
+aside{padding:20px 12px;border-right:1px solid var(--line);background:#11111688}.nav{display:flex;flex-direction:column;gap:6px}.nav button{background:transparent;text-align:left;color:var(--muted);font-weight:650}.nav button.active,.nav button:hover{background:#29202a;color:white}.nav button.active{box-shadow:inset 3px 0 var(--red)}.side-note{margin:24px 8px;padding:13px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:12px}
+main{padding:22px;min-width:0}.page{display:none}.page.active{display:block}.eyebrow{color:#ff8188;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800}.hero{border:1px solid #4b2630;border-radius:18px;padding:26px;background:linear-gradient(120deg,#3b111d,#21151f 55%,#17171f);position:relative;overflow:hidden;min-height:210px;display:flex;align-items:center}.hero:after{content:"N";position:absolute;right:6%;top:-45px;font-size:250px;font-weight:1000;color:#ffffff08;pointer-events:none}.hero-content{max-width:540px;position:relative;z-index:1}.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.02;margin:9px 0 12px;letter-spacing:-1.6px}.hero p{color:#d2c5cc;max-width:520px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:26px 0 13px}.section-head h2{font-size:19px;margin:0}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.game{overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:14px}.art{height:125px;padding:15px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(135deg,#48232b,#191924)}.art:before{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-25px;top:-50px;background:#ff596a30;filter:blur(2px)}.art span{font-size:32px;position:relative;filter:drop-shadow(0 4px 8px #0008)}.game-info{padding:13px}.game-title{font-weight:800;margin-bottom:4px}.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}.price{color:var(--green);font-weight:800}.game-info button{width:100%;margin-top:12px}.badge-list{display:flex;gap:10px;flex-wrap:wrap}.badge-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px;min-width:145px;flex:1}.badge-icon{font-size:28px}.badge-card strong{display:block;margin:6px 0 2px}.profile{display:flex;align-items:center;gap:15px;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}.avatar{width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,var(--red),#7725a8);display:grid;place-items:center;font-size:27px;font-weight:900}.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.stat{padding:15px;background:var(--panel);border:1px solid var(--line);border-radius:12px}.stat b{font-size:23px;display:block}.friend-row,.library-row{display:flex;align-items:center;gap:12px;padding:13px;border-bottom:1px solid var(--line)}.friend-row:last-child,.library-row:last-child{border-bottom:0}.dot{width:9px;height:9px;background:var(--green);border-radius:50%}.grow{flex:1;min-width:0}.pill{font-size:11px;padding:4px 8px;border-radius:99px;background:#2b2027;color:#ffb1b5}.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.chatbox{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}.chat-head{padding:13px;border-bottom:1px solid var(--line);font-weight:800}.messages{height:260px;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:82%;padding:9px 12px;border-radius:12px;background:var(--panel2);align-self:flex-start}.bubble.me{align-self:flex-end;background:#70232f}.chat-send{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}input,select{min-width:0;flex:1;background:#0e0e13;color:white;border:1px solid var(--line);border-radius:10px;padding:11px}select{flex:0 0 auto;padding:8px;border-radius:9px} .game-actions{display:flex;gap:7px;margin-top:12px}.game-actions button{flex:1;margin-top:0;padding:9px 7px;font-size:12px}.prototype-banner{margin:0 0 18px;padding:11px 13px;border:1px solid #77512a;background:#2b2115;border-radius:10px;color:#f3d2a1;font-size:12px}.gift-panel{max-width:680px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px}.gift-panel label{display:block;font-weight:700;margin:12px 0 6px}.gift-panel .actions{margin-top:15px}.notice{font-size:12px;color:var(--muted);margin-top:12px}.game-actions button{min-width:0}
+.game .art{cursor:pointer}
+.modal-backdrop{position:fixed;inset:0;z-index:30;background:#050509eF;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
+.modal-backdrop.show{display:flex;animation:fadeIn .22s ease-out}
+.modal{width:min(760px,100%);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#191922,#101015);border:1px solid #4a3039;border-radius:20px;box-shadow:0 25px 100px #000b;animation:modalIn .35s cubic-bezier(.2,.8,.2,1)}
+.modal-top{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line);gap:12px}
+.close-btn{background:var(--panel2);border:1px solid var(--line);font-size:18px;padding:6px 11px}
+.launch-screen{padding:30px 20px;text-align:center;min-height:330px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 0,#8c1d32 0,transparent 55%)}
+.launch-logo{font-size:68px;filter:drop-shadow(0 0 24px #ff465b88);animation:floaty 2.4s ease-in-out infinite}
+.loader-ring{width:42px;height:42px;border:4px solid #ffffff20;border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;margin:16px auto}
+.progress{width:min(320px,90%);height:8px;background:#343440;border-radius:99px;overflow:hidden;margin:12px auto}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#ff414d,#ff9b72);border-radius:99px;transition:width .18s}
+.play-area{padding:20px}.game-scene{min-height:250px;border:1px solid #44303a;border-radius:15px;padding:20px;background:radial-gradient(circle at 70% 20%,#70253855,transparent 38%),linear-gradient(135deg,#181820,#24131c);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px}
+.scene-emoji{font-size:64px;filter:drop-shadow(0 0 20px #ff465b55);animation:floaty 2s ease-in-out infinite}.game-actions-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:15px}.game-actions-row button{min-width:120px}.gift-pop{font-size:66px;animation:giftBounce .65s ease-in-out infinite alternate;filter:drop-shadow(0 0 22px #ff6d85)}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}@keyframes giftBounce{from{transform:rotate(-9deg) scale(.92)}to{transform:rotate(9deg) scale(1.08)}}@keyframes shine{from{background-position:-200% 0}to{background-position:200% 0}}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#f7f7fb;color:#15151c;padding:11px 16px;border-radius:12px;font-weight:800;box-shadow:0 8px 35px #0008;display:none;z-index:10;max-width:90vw}
+footer{padding:22px;color:var(--muted);font-size:11px;text-align:center}
+@media(max-width:850px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line);padding:8px;position:sticky;top:59px;z-index:4;overflow-x:auto}.nav{flex-direction:row;width:max-content}.nav button{white-space:nowrap;padding:9px 12px}.side-note{display:none}main{padding:15px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:21px;min-height:230px}}
+@media(max-width:480px){.grid{grid-template-columns:1fr 1fr;gap:9px}.art{height:100px}.game-info{padding:10px}.game-info button{padding:9px 5px;font-size:12px}.meta{font-size:10px}.hero h1{font-size:34px}.hero p{font-size:13px}.stat{padding:11px}.stat b{font-size:20px}header{padding:10px 12px}}
+
+.login-gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 0%,#551421 0,transparent 48%),#09090d;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.login-gate.hidden{display:none}
+.login-card{width:min(440px,100%);padding:28px;background:linear-gradient(145deg,#191920,#101015);border:1px solid #493039;border-radius:22px;box-shadow:0 24px 90px #000b;text-align:center}
+.login-mark{width:58px;height:58px;margin:0 auto 16px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(135deg,#ff414d,#a61d45);font-size:31px;font-weight:1000;box-shadow:0 0 34px #ff414d45}
+.login-card h1{font-size:27px;letter-spacing:-.7px;margin:0 0 6px}.login-card p{color:var(--muted);font-size:13px}
+.login-form{text-align:left;margin-top:20px}.login-form label{display:block;font-weight:750;font-size:13px;margin:12px 0 6px}.login-form input{width:100%;flex:auto}.login-primary,.google-login{width:100%;margin-top:13px;min-height:46px}.google-login{background:#f8f8fa;color:#202027;border:1px solid #d5d5df}.google-g{display:inline-grid;place-items:center;background:white;color:#4285f4;border-radius:50%;font-weight:900;width:22px;height:22px;margin-right:8px}.login-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;margin:15px 0}.login-divider:before,.login-divider:after{content:"";height:1px;flex:1;background:var(--line)}.login-note{border:1px solid #5d4828;background:#2a2115;color:#efd2a2!important;border-radius:10px;padding:10px;text-align:left;font-size:11px!important;margin-top:16px}.login-error{color:#ff8d94!important;min-height:18px;font-size:12px!important}.login-small{font-size:11px!important}
+@media(max-width:480px){.login-card{padding:23px 18px}.login-card h1{font-size:24px}}
+
+
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.setting-row:last-child{border-bottom:0}
+.setting-row input[type=checkbox]{width:20px;height:20px;accent-color:#ff5368;flex-shrink:0}
+#profileEditor label{display:block;margin:12px 0 6px;color:var(--muted);font-size:13px}
+#profileEditor input,#profileEditor textarea{width:100%;box-sizing:border-box;margin-bottom:8px}
+.friend-row .remove-friend{padding:7px 9px;font-size:12px}
+
+</style>
+</head>
+<body>
+
+<div class="login-gate" id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="login-card">
+    <div class="login-mark">N</div>
+    <div class="eyebrow">YOUR GAMING UNIVERSE</div>
+    <h1 id="loginTitle">Welcome to NEXUS</h1>
+    <p>Sign in to your gaming world.</p>
+    <button class="google-login" type="button" onclick="googleLoginInfo()"><span class="google-g">G</span> Continue with Google</button>
+    <div class="login-divider">OR TRY THE LOCAL DEMO</div>
+    <form class="login-form" onsubmit="continueDemo(event)">
+      <label for="demoUsername">Display name</label>
+      <input id="demoUsername" name="demoUsername" autocomplete="nickname" maxlength="24" placeholder="Choose a player name" required>
+      <button class="login-primary" type="submit">Enter NEXUS GAMING →</button>
+      <p class="login-error" id="loginError" aria-live="polite"></p>
+    </form>
+    <p class="login-note"><b>Authentication status:</b> Google sign-in is shown in the interface but is not connected yet. Real sign-in must be configured with Google Identity/Firebase Authentication. This demo never asks for your Google password.</p>
+    <p class="login-small">Local demo profiles are saved only in this browser on this device. They are not secure online accounts.</p>
+  </div>
+</div>
+<header><div class="brand"><div class="logo">N</div><span>NEXUS <span style="color:var(--red)">GAMING</span></span></div><div style="display:flex;align-items:center;gap:10px"><label for="currency" class="status">CURRENCY</label><select id="currency" aria-label="Display currency" onchange="setCurrency(this.value)"><option value="EUR">EUR €</option><option value="USD">USD $</option></select><button class="secondary" style="padding:7px 10px;font-size:12px" onclick="nexusSignOut()">Sign out</button><div class="status">PROTOTYPE</div></div></header>
+<div class="layout">
+<aside><nav class="nav" aria-label="Main navigation">
+<button class="active" data-page="discover">⌂ &nbsp; Discover</button>
+<button data-page="free">🎁 &nbsp; Free Gifts</button>
+<button data-page="gifts">💝 &nbsp; Gift Games</button>
+<button data-page="library">▦ &nbsp; Library</button>
+<button data-page="friends">♧ &nbsp; Friends</button>
+<button data-page="chat">▤ &nbsp; Chat</button>
+<button data-page="profile">♛ &nbsp; Profile & Badges</button>
+</nav><div class="side-note"><b style="color:white">LEVEL UP YOUR PROFILE</b><br><br>Collect games, earn achievements, and build your gaming identity.<br><br><span class="pill">Early prototype</span></div></aside>
+<main>
+<section class="page active" id="discover">
+<div class="hero"><div class="hero-content"><div class="eyebrow">Your next adventure starts here</div><h1>PLAY MORE.<br><span style="color:#ff6872">SHOW OFF.</span></h1><p>Discover games, claim free gifts, build your library, and turn every achievement into bragging rights.</p><div class="actions"><button onclick="showPage('free')">Explore free gifts ↗</button><button class="secondary" onclick="showPage('library')">Open my library</button></div></div></div>
+<div class="section-head"><h2>Featured games</h2><span class="muted">Demo catalog</span></div><div class="grid" id="featured"></div>
+<div class="section-head"><h2>Earn your first badges</h2><button class="secondary" onclick="showPage('profile')">View profile</button></div><div class="badge-list" id="homeBadges"></div>
+</section>
+<section class="page" id="free"><div class="eyebrow">Player rewards</div><h1>Free gifts 🎁</h1><div class="prototype-banner"><b>Demo only:</b> real payments and online gifting are not connected. Sample free gifts are fictional; no actual game license is issued.</div><p class="muted">Claim demo offers to test the flow. Real promotions would need verified publisher/store partnerships.</p><div class="grid" id="freeGames"></div><p class="notice">Prototype note: these are sample game listings, not real offers. Claiming adds the demo item to your local library.</p></section>
+<section class="page" id="gifts"><div class="eyebrow">Share the fun</div><h1>Gift games 💝</h1><div class="prototype-banner"><b>Demo only:</b> real payments and online gifting are not connected. Sending a test gift will not charge anyone or transfer a game to another account.</div><p class="muted">Choose a friend and a game. Your own library stays unchanged when you preview a gift—your friend would receive a separate license once real publisher-approved gifting is implemented.</p><div class="gift-panel"><label for="giftFriend">Gift to a friend</label><select id="giftFriend"></select><label for="giftGame">Choose a game</label><select id="giftGame"></select><div id="giftSummary" class="notice">Choose a friend and a game to see the gift details.</div><div class="actions"><button onclick="previewGift()">Preview gift 🎁</button><button class="secondary" onclick="showPage('friends')">Manage friends</button></div></div><div class="section-head"><h2>Games available to gift</h2></div><div class="grid" id="giftGames"></div><p class="notice">Gifting rules: the sender keeps their existing copy; the recipient gets a separate copy. Only games whose publishers authorize gifting can be offered in a live store.</p></section>
+<section class="page" id="library"><div class="eyebrow">Your collection</div><h1>Game library</h1><div class="prototype-banner"><b>Demo only:</b> your library is stored on this device. Paid purchases and gifted licenses are not real or connected.</div><p class="muted">Claimed games are playable mini-games here. Paid game checkout is not connected yet.</p><div class="chatbox" id="libraryList"></div><p class="notice">Your demo library is saved in this browser on this device. It is not yet linked to an online account.</p></section>
+<section class="page" id="friends"><div class="eyebrow">Your squad</div><h1>Friends</h1><div class="profile"><div class="avatar" id="friendsAvatar">N</div><div class="grow"><strong id="friendsPlayerName">Player</strong><div class="muted">Your profile on this device</div></div><span class="pill">YOU</span></div><div class="section-head"><h2>Friends list</h2><span class="muted" id="friendCount">0 friends</span></div><div class="chatbox" id="friendsList"></div><div class="section-head"><h2>Add a friend</h2></div><form onsubmit="addFriend(event)" style="display:flex;gap:8px;flex-wrap:wrap"><input id="friendName" placeholder="Enter a display name" maxlength="24" required><button>Add friend</button></form><div class="section-head"><h2>Friend settings ⚙️</h2></div><div class="chatbox"><label class="setting-row"><span><b>Show my profile to friends</b><div class="muted">Controls the local profile visibility preference.</div></span><input id="settingProfileVisible" type="checkbox" onchange="saveFriendSettings()"></label><label class="setting-row"><span><b>Allow friend requests</b><div class="muted">Choose whether you want to accept new requests in a future online version.</div></span><input id="settingFriendRequests" type="checkbox" onchange="saveFriendSettings()"></label><label class="setting-row"><span><b>Show online status</b><div class="muted">Your online status preference for the future online version.</div></span><input id="settingOnlineStatus" type="checkbox" onchange="saveFriendSettings()"></label></div><p class="notice">These friend settings and friend names save in this browser on this device. Real friend requests, online status, and cross-device syncing need an online backend.</p></section>
+<section class="page" id="chat"><div class="eyebrow">Community</div><h1>Friends chat</h1><p class="muted">Try the chat interface locally.</p><div class="chatbox"><div class="chat-head"># general-chat <span class="pill">LOCAL DEMO</span></div><div class="messages" id="messages"><div class="bubble"><b>System</b><br>Welcome to NEXUS! This demo chat only appears on this device.</div><div class="bubble"><b>MoonByte</b><br>Anyone found a new game to try?</div></div><form class="chat-send" onsubmit="sendMessage(event)"><input id="messageInput" placeholder="Write a message…" maxlength="300" required><button>Send</button></form></div><p class="notice">Messages are not sent to other people. Real cross-device chat needs accounts, a server, moderation, and privacy protections.</p></section>
+<section class="page" id="profile"><div class="eyebrow">Player card</div><h1>Your gaming identity</h1><div class="profile"><div class="avatar" id="profileAvatar">N</div><div class="grow"><h2 id="profileDisplayName" style="margin:0">Player</h2><div class="muted" id="profileBio">Rookie Collector · Level 1</div></div><button class="secondary" onclick="toggleProfileEditor()">Edit profile</button></div><div id="profileEditor" class="chatbox" style="display:none;margin:16px 0"><form onsubmit="saveProfile(event)"><label for="profileNameInput">Display name</label><input id="profileNameInput" maxlength="24" minlength="2" required placeholder="Your gaming name"><label for="profileBioInput">Bio</label><textarea id="profileBioInput" maxlength="120" rows="3" placeholder="Tell friends what you like to play"></textarea><label for="profileAvatarInput">Avatar emoji</label><input id="profileAvatarInput" maxlength="4" placeholder="🎮"><div class="actions"><button type="submit">Save profile</button><button class="secondary" type="button" onclick="toggleProfileEditor(false)">Cancel</button></div></form></div><div class="stat-row"><div class="stat"><span class="muted">Games owned</span><b id="statGames">0</b></div><div class="stat"><span class="muted">Badges earned</span><b id="statBadges">0</b></div><div class="stat"><span class="muted">Achievements</span><b id="statAch">0</b></div></div><div class="section-head"><h2>Badge collection</h2><span class="muted">Earn by exploring</span></div><div class="badge-list" id="allBadges"></div><div class="section-head"><h2>Achievements</h2></div><div class="chatbox" id="achievementList"></div></section>
+</main>
+</div>
+<footer>NEXUS GAMING is a working-name concept. Demo listings and prices are illustrative only. The Play buttons launch original mission-based mini-games built into this prototype. Real payments, online gifting, and publisher-approved game licenses are not connected.</footer>
+<div class="modal-backdrop" id="appModal" role="dialog" aria-modal="true" aria-label="NEXUS game window" onclick="backdropClose(event)">
+  <div class="modal">
+    <div class="modal-top"><div><b id="modalTitle">NEXUS GAME</b><div class="status" id="modalSub">Launching experience</div></div><button class="close-btn" onclick="closeModal()" aria-label="Close">✕</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const games=[
+{id:'emberfall',name:'Emberfall: Ashes',genre:'Fantasy RPG',price:'FREE GIFT',priceEUR:0,priceUSD:0,free:true,art:'🔥',desc:'A fantasy adventure through a world of ash.',color:'linear-gradient(135deg,#6b242a,#20131c)'},
+{id:'startrail',name:'Startrail Zero',genre:'Space adventure',price:'€19.99',priceEUR:19.99,priceUSD:21.99,free:false,art:'🚀',desc:'Explore strange planets beyond the frontier.',color:'linear-gradient(135deg,#173f68,#17162d)'},
+{id:'neonracer',name:'Neon Circuit',genre:'Racing',price:'FREE GIFT',priceEUR:0,priceUSD:0,free:true,art:'🏎️',desc:'Race through a glowing futuristic city.',color:'linear-gradient(135deg,#66245f,#18152d)'},
+{id:'wildhollow',name:'Wild Hollow',genre:'Survival',price:'€14.99',priceEUR:14.99,priceUSD:16.49,free:false,art:'🌲',desc:'Build, explore, and survive the wilderness.',color:'linear-gradient(135deg,#25553c,#17221d)'},
+{id:'cryptkeep',name:'Cryptkeep',genre:'Dungeon crawler',price:'FREE GIFT',priceEUR:0,priceUSD:0,free:true,art:'🗝️',desc:'Find relics in mysterious ancient ruins.',color:'linear-gradient(135deg,#5b4526,#211a16)'},
+{id:'pixelrift',name:'Pixel Rift',genre:'Indie platformer',price:'€4.99',priceEUR:4.99,priceUSD:5.49,free:false,art:'👾',desc:'A tiny hero in a giant pixel universe.',color:'linear-gradient(135deg,#27558d,#281c58)'},
+{id:'skyforge',name:'Skyforge: Titan Rush',genre:'Mech arena roguelite',price:'FREE GIFT',priceEUR:0,priceUSD:0,free:true,art:'🤖',desc:'Pilot a battle mech, chain combos, and hunt rare reactor cores in a shifting arena.',color:'linear-gradient(135deg,#205c67,#17162d)'},
+{id:'abyssaldeep',name:'Abyssal Deep',genre:'Ocean survival mystery',price:'FREE GIFT',priceEUR:0,priceUSD:0,free:true,art:'🦑',desc:'Dive into glowing trenches, manage oxygen, scan strange life, and uncover a lost research station.',color:'linear-gradient(135deg,#075c72,#101b34)'},
+{id:'dungeondash',name:'Dungeon Dash: Relic Run',genre:'Action dungeon crawler',price:'€7.99',priceEUR:7.99,priceUSD:8.79,free:false,art:'⚔️',desc:'Dash through trap rooms, find secret chests, and build a different relic loadout each run.',color:'linear-gradient(135deg,#72411f,#231528)'},
+{id:'mechmayhem',name:'Mech Mayhem: Scrapstorm',genre:'Arcade action',price:'FREE GIFT',priceEUR:0,priceUSD:0,free:true,art:'💥',desc:'Smash scrap bots, upgrade your gear, and survive escalating waves for bigger loot.',color:'linear-gradient(135deg,#733021,#231528)'}
+];
+const badges=[
+{id:'first',icon:'🎮',name:'First Pick',desc:'Claim your first game',test:s=>s.library.length>=1},
+{id:'collector',icon:'📚',name:'Collector',desc:'Collect 3 games',test:s=>s.library.length>=3},
+{id:'social',icon:'🤝',name:'Squad Starter',desc:'Add a friend',test:s=>s.friends.length>=1},
+{id:'explorer',icon:'🧭',name:'Explorer',desc:'Visit every main section',test:s=>s.visited.length>=6}
+];
+let state;
+try{state=JSON.parse(localStorage.getItem('nexusDemoState'))||{library:[],friends:[],visited:['discover'],claimedBadges:[],currency:'EUR',sentGifts:[]}}catch(e){state={library:[],friends:[],visited:['discover'],claimedBadges:[],currency:'EUR',sentGifts:[]}}
+state.currency=state.currency||'EUR';state.sentGifts=state.sentGifts||[];
+function save(){try{localStorage.setItem('nexusDemoState',JSON.stringify(state))}catch(e){}}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(!state.visited.includes(id))state.visited.push(id);save();render();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function priceLabel(g){if(g.free)return 'FREE GIFT';const amount=state.currency==='USD'?g.priceUSD:g.priceEUR;return (state.currency==='USD'?'$':'€')+amount.toFixed(2)}
+function gameCard(g){const owned=state.library.includes(g.id);return `<article class="game"><div class="art" style="background:${g.color}" onclick="openGame('${g.id}')" role="button" aria-label="Open ${g.name}"><span>${g.art}</span></div><div class="game-info"><div class="game-title">${g.name}</div><div class="meta"><span>${g.genre}</span><span class="${g.free?'price':''}">${priceLabel(g)}</span></div><div class="game-actions"><button ${owned?'':'class="secondary"'} onclick="${owned?`openGame('${g.id}')`:g.free?`claim('${g.id}')`:`buyDemo('${g.id}')`}">${owned?'▶ Play':g.free?'Claim free':'Buy'}</button><button class="secondary" onclick="startGift('${g.id}')">Gift</button></div></div></article>`}
+function claim(id){const g=games.find(x=>x.id===id);if(!g)return;if(!g.free){toast('Real payments are not connected. No money was charged.');return}if(state.library.includes(id)){openGame(id);return}showDownload(g,()=>{state.library.push(id);save();render();toast(g.name+' added to your library!')})}
+function buyDemo(id){const g=games.find(x=>x.id===id);if(g)toast('Real payments are not connected. No money was charged.')}
+function setCurrency(v){state.currency=v==='USD'?'USD':'EUR';save();render()}
+function startGift(id){showPage('gifts');document.getElementById('giftGame').value=id;updateGiftSummary()}
+function updateGiftSummary(){const f=document.getElementById('giftFriend'),gsel=document.getElementById('giftGame');if(!f||!gsel)return;const g=games.find(x=>x.id===gsel.value);const name=f.value;document.getElementById('giftSummary').textContent=g&&name?`${g.name} for ${name} · ${g.free?'Free gift':'Gift price: '+priceLabel(g)}. Demo preview only — no payment or transfer will occur.`:'Choose a friend and a game to see the gift details.'}
+function previewGift(){const f=document.getElementById('giftFriend'),gsel=document.getElementById('giftGame');const g=games.find(x=>x.id===gsel.value);if(!f.value){toast('Add a friend first, bro!');return}if(!g){toast('Choose a game to gift.');return}state.sentGifts.push({gameId:g.id,to:f.value,at:new Date().toISOString()});save();updateGiftSummary();showGiftAnimation(g,f.value)}
+
+
+let gameTimer=null,launchTimer=null,activeGameId=null,gameScore=0,gameStep=0,gameHealth=3,gameEnergy=3,gameLoot=[],gameLog=[];
+function backdropClose(e){if(e.target.id==='appModal')closeModal()}
+function closeModal(){document.getElementById('appModal').classList.remove('show');if(gameTimer)clearInterval(gameTimer);if(launchTimer)clearInterval(launchTimer);gameTimer=null;launchTimer=null}
+function modal(title,sub,body){document.getElementById('modalTitle').textContent=title;document.getElementById('modalSub').textContent=sub;document.getElementById('modalBody').innerHTML=body;document.getElementById('appModal').classList.add('show')}
+function showDownload(g,done){if(!g)return;closeModal();modal('DOWNLOADING · '+g.name,'Preparing local demo files',`<div class="launch-screen"><div class="launch-logo">${g.art}</div><h2 style="margin:6px 0">Preparing your game</h2><p class="muted">Installing the playable NEXUS mini-game experience…</p><div class="loader-ring"></div><div class="progress"><div class="progress-fill" id="downloadProgress"></div></div><b id="downloadPercent">0%</b><p class="notice">Demo download animation only — no external game files are downloaded.</p></div>`);let n=0;launchTimer=setInterval(()=>{n+=Math.ceil(Math.random()*13);if(n>100)n=100;const bar=document.getElementById('downloadProgress'),pct=document.getElementById('downloadPercent');if(bar)bar.style.width=n+'%';if(pct)pct.textContent=n+'%';if(n>=100){clearInterval(launchTimer);launchTimer=null;setTimeout(()=>{closeModal();if(done)done();else toast(g.name+' is ready to play!')},450)}},170)}
+function openGame(id){const g=games.find(x=>x.id===id);if(!g)return;if(!state.library.includes(id)){toast('Claim or purchase the game first to add it to your library.');return}activeGameId=id;gameScore=0;gameStep=0;gameHealth=3;gameEnergy=3;gameLoot=[];gameLog=[];closeModal();modal('LAUNCHING · '+g.name,'NEXUS GAME STARTUP',`<div class="launch-screen"><div class="launch-logo">${g.art}</div><div class="eyebrow">NEXUS GAME ENGINE</div><h2 style="margin:7px 0">Starting ${g.name}</h2><p class="muted">Loading world assets · Initializing controls · Ready to play</p><div class="loader-ring"></div><div class="progress"><div class="progress-fill" id="launchProgress"></div></div><b id="launchPercent">0%</b></div>`);let n=0;launchTimer=setInterval(()=>{n+=10;const bar=document.getElementById('launchProgress'),pct=document.getElementById('launchPercent');if(bar)bar.style.width=n+'%';if(pct)pct.textContent=n+'%';if(n>=100){clearInterval(launchTimer);launchTimer=null;setTimeout(()=>renderMiniGame(g),250)}},110)}
+const gameModes={
+ emberfall:{emoji:'🐉',title:'ASHEN ARENA',desc:'A young ember dragon is guarding a stolen relic. Study its move, defend, and strike when it is exposed.',goal:9,actions:['⚔️ STRIKE','🛡️ DEFEND','🧪 USE POTION'],loot:['Ember Scale','Ashen Coin','Dragon Fang'],events:['The dragon sweeps its tail!','Its armor cracks — now is your chance!','A shower of embers falls from above!']},
+ startrail:{emoji:'🪐',title:'LOST PLANET: K-17',desc:'Scan ruins, manage your oxygen, and gather three data fragments before the storm reaches your ship.',goal:8,actions:['🔭 SCAN RUINS','💎 COLLECT','🫁 RESTORE OXYGEN'],loot:['Star Crystal','Ancient Data','Alien Alloy'],events:['A signal echoes beneath the sand.','The planet storm grows stronger.','Your scanner detects a hidden cache!']},
+ neonracer:{emoji:'🏎️',title:'NEON CIRCUIT: NIGHT RUN',desc:'Race through a neon city. Build speed, dodge traffic, and save your boost for the final stretch.',goal:10,actions:['⚡ BOOST','↔️ DODGE','🔋 RECHARGE'],loot:['Turbo Chip','Neon Token','Perfect Drift'],events:['A rival pulls alongside!','Sharp turn ahead!','You catch a slipstream!']},
+ wildhollow:{emoji:'🌲',title:'WILD HOLLOW: FIRST NIGHT',desc:'Build a safe camp before dark. Gather supplies, craft a shelter, and keep your energy up.',goal:8,actions:['🪓 GATHER WOOD','🍓 FORAGE','🔥 BUILD CAMP'],loot:['Hardwood','Wild Berries','Moonleaf'],events:['You hear something moving in the brush.','Rain clouds gather above the valley.','You spot useful herbs near the stream.']},
+ cryptkeep:{emoji:'🗝️',title:'CRYPTKEEP: THE SEALED VAULT',desc:'Explore the crypt room by room. Search for relics, disarm traps, and find the vault key.',goal:7,actions:['🚪 EXPLORE','🧿 SEARCH','🛡️ DISARM TRAP'],loot:['Crypt Relic','Silver Key','Forgotten Gem'],events:['A floor tile clicks beneath you!','A whisper points toward a hidden alcove.','Dust falls from an ancient doorway.']},
+ pixelrift:{emoji:'👾',title:'PIXEL RIFT: PORTAL RUN',desc:'Jump across fractured platforms, collect rift sparks, and stabilize the portal before it collapses.',goal:9,actions:['⬆️ JUMP','✨ COLLECT SPARK','🌀 STABILIZE'],loot:['Rift Spark','Pixel Shard','Portal Fragment'],events:['The platform flickers!','A bonus spark appears in the air.','The portal pulses with unstable energy!']},
+ skyforge:{emoji:'🤖',title:'TITAN RUSH: ARENA SURVIVAL',desc:'Chain attacks, scan enemy patterns, and overcharge your mech only when the reactor is stable. Reach 10 combo points for a rare core.',goal:10,actions:['💥 COMBO ATTACK','🎯 SCAN ENEMY','⚡ OVERCHARGE'],loot:['Titan Reactor Core','Chrome Plating','Combo Chip'],events:['A heavy titan enters the arena!','Your combo meter is glowing!','A reactor core drops from a defeated bot!']},
+ abyssaldeep:{emoji:'🦑',title:'ABYSSAL DEEP: LOST STATION',desc:'Explore a pitch-black trench. Scan lifeforms, collect research data, and refill oxygen before the pressure surge.',goal:9,actions:['🔦 SCAN TRENCH','🧪 COLLECT SAMPLE','🫧 REFILL OXYGEN'],loot:['Biolume Pearl','Station Keycard','Abyssal Data'],events:['A giant shadow moves beyond the lights.','Your scanner finds a hidden research pod.','Pressure alarms flash across your visor!']},
+ dungeondash:{emoji:'⚔️',title:'RELIC RUN: TRAP VAULT',desc:'Pick your route through a trap vault. Search for relics, dodge hazards, and unlock the final treasure chest.',goal:9,actions:['🗡️ DASH FORWARD','🧰 SEARCH CHEST','🛡️ EVADE TRAP'],loot:['Stormblade Relic','Gold Idol','Phantom Gem'],events:['Darts fire from the wall!','A secret chest glows behind a statue.','The vault guardian stirs!']},
+ mechmayhem:{emoji:'💥',title:'SCRAPSTORM: WAVE BREAKER',desc:'Fight through bot waves, salvage parts, and repair your mech between rounds. Bigger risks bring better loot.',goal:10,actions:['🔨 SMASH BOTS','🔩 SALVAGE PARTS','🛠️ REPAIR MECH'],loot:['Overdrive Module','Scrap Titan Plate','Voltaic Gear'],events:['A swarm of scout bots rushes in!','You spot a legendary part in the wreckage.','Wave incoming — brace for impact!']}
+};
+function renderMiniGame(g){const d=gameModes[g.id]||gameModes.emberfall;gameScore=0;gameStep=0;gameHealth=3;gameEnergy=3;gameLoot=[];gameLog=['Mission started. Choose your move.'];modal(g.name.toUpperCase(),'PLAYABLE MINI-GAME · MISSION MODE',`<div class="play-area"><div class="game-scene" style="background:${g.color};min-height:220px"><div class="scene-emoji" id="sceneEmoji">${d.emoji}</div><div class="eyebrow">${d.title}</div><h2 id="gameStateTitle" style="margin:0">Mission briefing</h2><p id="gameDesc" class="muted" style="max-width:480px;margin:0">${d.desc}</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0"><span class="pill" id="scorePill">Objective: 0 / ${d.goal}</span><span class="pill" id="healthPill">❤️ 3</span><span class="pill" id="energyPill">⚡ 3</span></div><div class="game-actions-row" id="gameButtons">${d.actions.map((a,i)=>`<button ${i===1?'class="secondary"':''} onclick="gameAction('${g.id}',${i})">${a}</button>`).join('')}</div><div id="gameLoot" class="notice">Loot bag: empty</div></div><div class="section-head" style="margin:17px 0 8px"><h2>Mission log</h2><span class="muted" id="turnLabel">Turn 0</span></div><div class="chatbox" id="gameLog" style="padding:10px;max-height:120px;overflow:auto"><div class="muted">Mission started. Choose your move.</div></div><div class="actions"><button class="secondary" onclick="openGame('${g.id}')">↻ Restart mission</button><button class="secondary" onclick="closeModal()">Exit game</button></div><p class="notice">Mini-game missions are original local gameplay. Game progress and loot are demo-only and do not unlock real publisher achievements.</p></div>`)}
+function logGame(message){gameLog.unshift(message);gameLog=gameLog.slice(0,5);const el=document.getElementById('gameLog');if(el)el.innerHTML=gameLog.map((x,i)=>`<div class="${i===0?'':'muted'}" style="padding:4px 2px">${esc(x)}</div>`).join('')}
+function gameAction(id,which){const g=games.find(x=>x.id===id),d=gameModes[id]||gameModes.emberfall;if(!g)return;const pill=document.getElementById('scorePill'),title=document.getElementById('gameStateTitle'),desc=document.getElementById('gameDesc'),emoji=document.getElementById('sceneEmoji');if(!pill||pill.textContent.includes('MISSION COMPLETE'))return;gameStep++;let gain=0,damage=0,energyCost=0,story='';const roll=Math.random();
+ if(id==='emberfall'){if(which===0){gain=roll>.25?2:1;damage=roll>.7?1:0;story=gain===2?'Critical strike! The dragon staggers.':'You land a solid hit.'}else if(which===1){damage=roll>.65?0:0;gain=roll>.72?1:0;story='You brace behind your shield and study the dragon.'}else{if(gameEnergy>0&&gameHealth<3){gameHealth++;gameEnergy--;story='Potion restores one heart.'}else{gameEnergy=Math.max(0,gameEnergy-1);story='No potion effect — conserve your supplies.'}}}
+ if(id==='startrail'){if(which===0){gain=roll>.3?1:0;energyCost=1;story=gain?'Scanner found a data fragment.':'Scan found only dust.'}else if(which===1){gain=roll>.2?2:1;story='You collect crystals from the ruin.'}else{gameEnergy=Math.min(3,gameEnergy+2);story='Oxygen reserves restored.'}}
+ if(id==='neonracer'){if(which===0){if(gameEnergy>0){gain=2;energyCost=1;damage=roll>.78?1:0;story='Turbo boost! You shoot past a rival.'}else{gain=1;story='Low boost — you keep accelerating.'}}else if(which===1){gain=roll>.25?1:0;story=gain?'Perfect dodge through traffic!':'You clip a barrier and lose momentum.'}else{gameEnergy=Math.min(3,gameEnergy+2);story='You recharge behind a rival car.'}}
+ if(id==='wildhollow'){if(which===0){gain=roll>.25?2:1;energyCost=1;story='You gather sturdy branches and dry wood.'}else if(which===1){gain=roll>.2?1:0;gameHealth= Math.min(3,gameHealth+(roll>.6?1:0));story='You forage for berries and useful plants.'}else{if(gameScore>=3){gain=2;story='You build a warm shelter and light a campfire.'}else{damage=1;story='Not enough wood yet — a cold gust hits you.'}}}
+ if(id==='cryptkeep'){if(which===0){gain=roll>.25?1:0;damage=roll>.76?1:0;story=gain?'You find a passage deeper into the crypt.':'Dead end — a trap rattles nearby.'}else if(which===1){gain=roll>.15?2:1;story='You search a hidden alcove and find relics.'}else{if(roll>.35){gain=1;story='Trap disarmed safely. A secret compartment opens.'}else{damage=1;story='The trap snaps! You lose a heart.'}}}
+ if(id==='pixelrift'){if(which===0){gain=roll>.22?1:0;damage=roll>.82?1:0;story=gain?'Clean jump! You land on a stable platform.':'You miss the platform edge.'}else if(which===1){gain=roll>.18?2:1;story='You catch glowing sparks mid-air.'}else{if(gameScore>=2){gain=1;gameEnergy=Math.min(3,gameEnergy+1);story='Portal stabilized a little; the rift calms.'}else{damage=1;story='The portal pushes back before you have enough sparks.'}}}
+ if(['skyforge','abyssaldeep','dungeondash','mechmayhem'].includes(id)){
+   if(which===0){gain=roll>.2?2:1;damage=roll>.78?1:0;energyCost=1;story= id==='skyforge'?'Combo chain landed! Your mech launches a heavy finisher.':id==='abyssaldeep'?'Your scan beam reveals a path through the glowing trench.':id==='dungeondash'?'You dash through the chamber and slip past a trap.':'You smash a bot and send scrap flying.'}
+   else if(which===1){gain=roll>.25?2:1;story=id==='skyforge'?'Enemy pattern scanned — weak point marked.':id==='abyssaldeep'?'You collect a rare sample from the ocean floor.':id==='dungeondash'?'The chest pops open with a relic inside!':'You salvage useful parts from the wreckage.'}
+   else if(id==='abyssaldeep'){gameEnergy=Math.min(3,gameEnergy+2);story='Oxygen restored. The pressure meter settles.'}
+   else if(id==='mechmayhem'){if(gameHealth<3){gameHealth++;gameEnergy=Math.max(0,gameEnergy-1);story='Emergency repair restores one heart.'}else{gameEnergy=Math.min(3,gameEnergy+1);gain=1;story='Mech systems tuned — a small bonus added.'}}
+   else if(id==='skyforge'){if(gameEnergy>0){gain=2;energyCost=1;story='Reactor overcharge! Huge damage bonus, but it drains energy.'}else{damage=1;story='The reactor sputters. Overcharging with no energy costs a heart.'}}
+   else {if(gameScore>=2){gain=2;story='You evade the trap and uncover the vault shortcut.'}else{damage=1;story='You trigger a trap before finding the safe route.'}}
+ }
+ gameEnergy=Math.max(0,gameEnergy-energyCost);gameHealth=Math.max(0,gameHealth-damage);gameScore+=gain;
+ if(gameStep%3===0&&id!=='wildhollow'&&id!=='emberfall'&&roll>.68){gameHealth=Math.max(0,gameHealth-1);story+=' '+d.events[gameStep% d.events.length];}
+ if(gameScore>0&&gameStep%2===0&&roll>.45){const item=d.loot[Math.floor(Math.random()*d.loot.length)];if(!gameLoot.includes(item))gameLoot.push(item);story+=' Loot found: '+item+'.'}
+ if(emoji)emoji.textContent=gameHealth===0?'💫':(gameScore>=d.goal?'🏆':d.emoji);
+ if(title)title.textContent=gameHealth===0?'MISSION FAILED':gameScore>=d.goal?'MISSION COMPLETE!':(['emberfall','neonracer'].includes(id)&&damage?'Watch out!':(['startrail','cryptkeep'].includes(id)&&gain?'Discovery!':'Turn '+gameStep));
+ if(desc)desc.textContent=gameHealth===0?'You ran out of hearts. Restart the mission and try a different strategy.':gameScore>=d.goal?'You completed the objective and secured your loot. Replay to discover different outcomes.':story;
+ if(pill)pill.textContent=gameHealth===0?'FAILED':gameScore>=d.goal?'MISSION COMPLETE 🏆':'Objective: '+Math.min(gameScore,d.goal)+' / '+d.goal;
+ const hp=document.getElementById('healthPill'),ep=document.getElementById('energyPill'),loot=document.getElementById('gameLoot'),turn=document.getElementById('turnLabel');if(hp)hp.textContent='❤️ '+gameHealth;if(ep)ep.textContent='⚡ '+gameEnergy;if(loot)loot.textContent='Loot bag: '+(gameLoot.length?gameLoot.join(' · '):'empty');if(turn)turn.textContent='Turn '+gameStep;
+ logGame(story);
+ if(gameHealth===0||gameScore>=d.goal){const buttons=document.getElementById('gameButtons');if(buttons)buttons.innerHTML=`<button onclick="openGame('${id}')">↻ Play again</button><button class="secondary" onclick="closeModal()">Exit</button>`;if(gameScore>=d.goal)toast('Mission complete: '+g.name+'!')}
+}
+function showGiftAnimation(g,name){closeModal();modal('GIFT READY','A little surprise is on its way…',`<div class="launch-screen"><div class="gift-pop">🎁</div><div class="eyebrow">NEXUS GIFT MOMENT</div><h2 style="margin:8px 0">Surprise for ${esc(name)}!</h2><p class="muted">${esc(g.name)} is wrapped up with a little sparkle.</p><div class="progress"><div class="progress-fill" id="giftProgress"></div></div><b id="giftPercent">Wrapping gift…</b><p class="notice">This is a visual preview only. Online gifting and payment are not connected; no gift has actually been delivered.</p><div class="actions"><button onclick="closeModal()">Looks awesome ✨</button></div></div>`);let n=0;launchTimer=setInterval(()=>{n+=20;const bar=document.getElementById('giftProgress'),pct=document.getElementById('giftPercent');if(bar)bar.style.width=n+'%';if(pct)pct.textContent=n<100?'Wrapping gift… '+n+'%':'🎉 Gift wrapped!';if(n>=100){clearInterval(launchTimer);launchTimer=null}},180)}
+
+function badgeCard(b){const earned=b.test(state);return `<div class="badge-card" style="${earned?'border-color:#7c4b53':''}"><div class="badge-icon">${earned?b.icon:'🔒'}</div><strong>${b.name}</strong><div class="muted">${earned?'UNLOCKED · ':''}${b.desc}</div></div>`}
+function render(){document.getElementById('currency').value=state.currency;document.getElementById('featured').innerHTML=games.slice(0,6).map(gameCard).join('');document.getElementById('freeGames').innerHTML=games.filter(g=>g.free).map(gameCard).join('');document.getElementById('giftGames').innerHTML=games.map(gameCard).join('');const friendSelect=document.getElementById('giftFriend'),gameSelect=document.getElementById('giftGame');if(friendSelect){const previous=friendSelect.value;friendSelect.innerHTML='<option value="">Choose a friend…</option>'+state.friends.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(state.friends.includes(previous))friendSelect.value=previous;friendSelect.onchange=updateGiftSummary;gameSelect.innerHTML=games.map(g=>`<option value="${g.id}">${g.name} · ${priceLabel(g)}</option>`).join('');gameSelect.onchange=updateGiftSummary;updateGiftSummary()}document.getElementById('homeBadges').innerHTML=badges.slice(0,3).map(badgeCard).join('');document.getElementById('allBadges').innerHTML=badges.map(badgeCard).join('');document.getElementById('statGames').textContent=state.library.length;document.getElementById('statBadges').textContent=badges.filter(b=>b.test(state)).length;document.getElementById('statAch').textContent=state.library.length+state.friends.length;
+const lib=document.getElementById('libraryList');lib.innerHTML=state.library.length?state.library.map(id=>{const g=games.find(x=>x.id===id);return `<div class="library-row"><div class="avatar" style="width:42px;height:42px;border-radius:10px">${g.art}</div><div class="grow"><b>${g.name}</b><div class="muted">${g.genre} · playable mini-game</div></div><button onclick="showDownload(games.find(x=>x.id==='${g.id}'))" class="secondary">↓ Download</button><button onclick="openGame('${g.id}')">▶ Play</button></div>`}).join(''):'<div class="empty">Your library is empty.<br><br>Claim a free gift to get started!</div>';
+const ach=document.getElementById('achievementList');ach.innerHTML=badges.map(b=>`<div class="library-row"><div class="avatar" style="width:42px;height:42px;border-radius:10px;background:${b.test(state)?'linear-gradient(135deg,#b87a25,#71313c)':'var(--panel2)'}">${b.test(state)?b.icon:'🔒'}</div><div class="grow"><b>${b.name}</b><div class="muted">${b.desc}</div></div><span class="pill">${b.test(state)?'UNLOCKED':'LOCKED'}</span></div>`).join('');
+const friends=document.getElementById('friendsList');if(friends){friends.innerHTML=state.friends.length?state.friends.map((n,i)=>`<div class="friend-row"><div class="avatar" style="width:42px;height:42px;font-size:19px">${esc(n[0].toUpperCase())}</div><div class="grow"><b>${esc(n)}</b><div class="muted">Saved friend · this device</div></div><span class="pill">Added</span><button class="secondary remove-friend" onclick="removeFriend(${i})">Remove</button></div>`).join(''):'<div class="empty">No friends added yet. Add a display name above to build your squad.</div>';const count=document.getElementById('friendCount');if(count)count.textContent=state.friends.length+' friend'+(state.friends.length===1?'':'s')}
+}
+function addFriend(e){e.preventDefault();const input=document.getElementById('friendName');const name=input.value.trim();if(!name)return;if(name.toLowerCase()==='neitanasgrinius'){toast('That is your own display name.');return}if(state.friends.some(n=>n.toLowerCase()===name.toLowerCase())){toast('That friend is already on your list.');return}state.friends.push(name);save();input.value='';render();toast(name+' added locally!')}
+function sendMessage(e){e.preventDefault();const input=document.getElementById('messageInput'),v=input.value.trim();if(!v)return;const d=document.createElement('div');d.className='bubble me';d.textContent=v;document.getElementById('messages').appendChild(d);input.value='';document.getElementById('messages').scrollTop=99999}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let toastTimer;function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.display='none',2300)}
+
+
+const NEXUS_PROFILE_KEY='nexusDemoProfile';
+const NEXUS_FRIEND_SETTINGS_KEY='nexusFriendSettings';
+function readNexusProfile(){
+  try{return JSON.parse(localStorage.getItem(NEXUS_PROFILE_KEY)||'{}')}catch(e){return {}}
+}
+function readFriendSettings(){
+  try{return JSON.parse(localStorage.getItem(NEXUS_FRIEND_SETTINGS_KEY)||'{}')}catch(e){return {}}
+}
+function renderSocialProfile(){
+  const saved=readNexusProfile();
+  const display=saved.name||nexusPlayer||localStorage.getItem('nexusDemoPlayer')||'Player';
+  const avatar=saved.avatar||display.charAt(0).toUpperCase()||'N';
+  const bio=saved.bio||'Rookie Collector · Level 1';
+  [['profileDisplayName',display],['friendsPlayerName',display],['profileBio',bio]].forEach(([id,value])=>{const el=document.getElementById(id);if(el)el.textContent=value});
+  ['profileAvatar','friendsAvatar'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=avatar});
+  const settings=readFriendSettings();
+  const defaults={visible:true,requests:true,online:true};
+  Object.keys(defaults).forEach(k=>{if(typeof settings[k]!=='boolean')settings[k]=defaults[k]});
+  const map={visible:'settingProfileVisible',requests:'settingFriendRequests',online:'settingOnlineStatus'};
+  Object.entries(map).forEach(([key,id])=>{const el=document.getElementById(id);if(el)el.checked=settings[key]});
+}
+function toggleProfileEditor(force){
+  const box=document.getElementById('profileEditor');
+  if(!box)return;
+  const open=typeof force==='boolean'?force:box.style.display==='none';
+  box.style.display=open?'block':'none';
+  if(open){const profile=readNexusProfile();document.getElementById('profileNameInput').value=profile.name||nexusPlayer||localStorage.getItem('nexusDemoPlayer')||'';document.getElementById('profileBioInput').value=profile.bio||'';document.getElementById('profileAvatarInput').value=profile.avatar||'🎮';}
+}
+function saveProfile(e){
+  e.preventDefault();
+  const name=document.getElementById('profileNameInput').value.trim();
+  if(name.length<2||name.length>24){toast('Display name must be 2–24 characters.');return}
+  const profile={name,bio:document.getElementById('profileBioInput').value.trim().slice(0,120),avatar:document.getElementById('profileAvatarInput').value.trim().slice(0,4)||name.charAt(0).toUpperCase()};
+  try{localStorage.setItem(NEXUS_PROFILE_KEY,JSON.stringify(profile));localStorage.setItem('nexusDemoPlayer',name)}catch(e){}
+  nexusPlayer=name;
+  document.getElementById('profileEditor').style.display='none';
+  renderSocialProfile();
+  toast('Profile saved on this device!');
+}
+function saveFriendSettings(){
+  const settings={visible:document.getElementById('settingProfileVisible').checked,requests:document.getElementById('settingFriendRequests').checked,online:document.getElementById('settingOnlineStatus').checked};
+  try{localStorage.setItem(NEXUS_FRIEND_SETTINGS_KEY,JSON.stringify(settings))}catch(e){}
+  toast('Friend settings saved on this device!');
+}
+function removeFriend(index){
+  const name=state.friends[index];
+  if(!name)return;
+  state.friends.splice(index,1);save();render();
+  toast(name+' removed from your local friends list.');
+}
+
+let nexusPlayer = '';
+function continueDemo(event){
+  event.preventDefault();
+  const field=document.getElementById('demoUsername');
+  const name=field.value.trim();
+  const error=document.getElementById('loginError');
+  if(name.length<2){error.textContent='Choose a name with at least 2 characters.';return;}
+  if(name.length>24){error.textContent='Player names must be 24 characters or fewer.';return;}
+  nexusPlayer=name;
+  try{localStorage.setItem('nexusDemoPlayer',name);localStorage.setItem('nexusDemoEntered','yes');}catch(e){}
+  document.getElementById('loginGate').classList.add('hidden');
+  toast('Welcome to NEXUS, '+name+'!');
+}
+function googleLoginInfo(){
+  toast('Google sign-in needs secure authentication setup first.');
+  document.getElementById('loginError').textContent='Google sign-in is not connected yet. Use the local demo for now.';
+}
+function initNexusLogin(){
+  try{
+    const entered=localStorage.getItem('nexusDemoEntered')==='yes';
+    const savedName=(readNexusProfile().name||localStorage.getItem('nexusDemoPlayer')||'');
+    if(entered&&savedName){nexusPlayer=savedName;document.getElementById('loginGate').classList.add('hidden');}
+    else document.getElementById('demoUsername').value=savedName;
+  }catch(e){}
+}
+function nexusSignOut(){
+  try{localStorage.removeItem('nexusDemoEntered');}catch(e){}
+  document.getElementById('loginGate').classList.remove('hidden');
+}
+
+initNexusLogin();
+render();
+renderSocialProfile();
+</script>
+</body>
+</html>
